@@ -35,6 +35,18 @@ Route::middleware(['auth'])->group(function () {
                 ->name('show');
             Route::resource('{prontuario}/evolucoes', \App\Http\Controllers\Prontuario\EvolucaoController::class)
                 ->shallow();
+            // Planos Terapêuticos
+            Route::get('{prontuario}/planos/create', [\App\Http\Controllers\Prontuario\PlanoTerapeuticoController::class, 'create'])
+                ->name('planos.create');
+            Route::post('{prontuario}/planos', [\App\Http\Controllers\Prontuario\PlanoTerapeuticoController::class, 'store'])
+                ->name('planos.store');
+            Route::get('planos/{plano}/edit', [\App\Http\Controllers\Prontuario\PlanoTerapeuticoController::class, 'edit'])
+                ->name('planos.edit');
+            Route::put('planos/{plano}', [\App\Http\Controllers\Prontuario\PlanoTerapeuticoController::class, 'update'])
+                ->name('planos.update');
+            Route::delete('planos/{plano}', [\App\Http\Controllers\Prontuario\PlanoTerapeuticoController::class, 'destroy'])
+                ->name('planos.destroy');
+
             // Encaminhamentos
             Route::get('{prontuario}/encaminhamentos/create', [\App\Http\Controllers\Prontuario\EncaminhamentoController::class, 'create'])
                 ->name('encaminhamentos.create');

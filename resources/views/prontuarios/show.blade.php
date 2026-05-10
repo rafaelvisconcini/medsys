@@ -103,22 +103,43 @@
 
     {{-- TAB: Plano Terapêutico --}}
     <div class="tab-pane fade" id="tab-planos">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 class="fw-semibold mb-0 text-secondary">Planos Terapêuticos</h6>
+            @can('ver-prontuario')
+            <a href="{{ route('prontuarios.planos.create', $prontuario) }}" class="btn btn-primary btn-sm">
+                + Novo Plano
+            </a>
+            @endcan
+        </div>
+
         @forelse ($planos as $plano)
         <div class="card border-0 shadow-sm mb-4">
             <div class="card-header bg-white d-flex justify-content-between align-items-center">
                 <div>
                     <span class="fw-semibold">{{ $plano->titulo }}</span>
-                    <span class="badge ms-2 {{ $plano->status === 'ativo' ? 'bg-success' : 'bg-secondary' }}">
+                    <span class="badge ms-2 {{ $plano->status === 'ativo' ? 'bg-success' : ($plano->status === 'suspenso' ? 'bg-warning text-dark' : 'bg-secondary') }}">
                         {{ ucfirst($plano->status) }}
                     </span>
+                    <span class="text-muted small ms-2">
+                        {{ $plano->periodo_inicio->format('d/m/Y') }}
+                        @if($plano->periodo_fim) — {{ $plano->periodo_fim->format('d/m/Y') }} @endif
+                    </span>
                 </div>
-                <span class="text-muted small">
-                    {{ $plano->periodo_inicio->format('d/m/Y') }}
-                    @if($plano->periodo_fim) — {{ $plano->periodo_fim->format('d/m/Y') }} @endif
-                </span>
+                @can('ver-prontuario')
+                @if(auth()->user()->isAdmin() || $plano->criado_por === auth()->id())
+                <div class="d-flex gap-1">
+                    <a href="{{ route('prontuarios.planos.edit', $plano) }}" class="btn btn-sm btn-outline-secondary">Editar</a>
+                    <form action="{{ route('prontuarios.planos.destroy', $plano) }}" method="POST"
+                          onsubmit="return confirm('Remover este plano terapêutico?')">
+                        @csrf @method('DELETE')
+                        <button class="btn btn-sm btn-outline-danger">Remover</button>
+                    </form>
+                </div>
+                @endif
+                @endcan
             </div>
             <div class="card-body">
-                @foreach ($plano->especialidades as $esp)
+                @forelse ($plano->especialidades as $esp)
                 <div class="mb-3 border-bottom pb-3">
                     <h6 class="fw-semibold text-primary mb-2">
                         {{ $esp->especialidade->label() }}
@@ -134,7 +155,12 @@
                     <p class="mb-0"><strong>Estratégias:</strong> {{ $esp->estrategias }}</p>
                     @endif
                 </div>
-                @endforeach
+                @empty
+                <p class="text-muted small mb-0">Nenhuma especialidade cadastrada neste plano.</p>
+                @endforelse
+            </div>
+            <div class="card-footer text-muted small bg-white">
+                Criado por {{ $plano->criador->name }} em {{ $plano->created_at->format('d/m/Y') }}
             </div>
         </div>
         @empty
