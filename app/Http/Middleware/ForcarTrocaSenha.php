@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ForcarTrocaSenha
 {
-    private const ROTAS_LIBERADAS = ['senha.trocar', 'logout', 'password.update'];
+    private const ROTAS_LIBERADAS = ['senha.trocar', 'logout', 'senha.atualizar'];
 
     public function handle(Request $request, Closure $next): Response
     {

@@ -11,7 +11,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Troca de senha obrigatória (disponível para qualquer autenticado)
     Route::get('senha/trocar', [SenhaController::class, 'form'])->name('senha.trocar');
-    Route::post('senha/trocar', [SenhaController::class, 'atualizar'])->name('password.update');
+    Route::post('senha/trocar', [SenhaController::class, 'atualizar'])->name('senha.atualizar');
 
     Route::middleware(['auth', \App\Http\Middleware\ForcarTrocaSenha::class])->group(function () {
 
