@@ -3,6 +3,12 @@
 @section('page-title', 'Financeiro')
 
 @section('header-actions')
+    <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modalExtrato">
+        Extrato PDF
+    </button>
+    <a href="{{ route('financeiro.relatorios.inadimplencia') }}" class="btn btn-outline-danger btn-sm" target="_blank">
+        Inadimplência PDF
+    </a>
     <a href="{{ route('financeiro.contas.create') }}" class="btn btn-outline-primary btn-sm">+ Cobrança Manual</a>
     <a href="{{ route('financeiro.contratos.index') }}" class="btn btn-primary btn-sm">Contratos</a>
 @endsection
@@ -153,6 +159,38 @@
                 <p class="text-center text-muted py-4 mb-0">Nenhum pagamento registrado.</p>
                 @endforelse
             </div>
+        </div>
+    </div>
+</div>
+
+{{-- Modal extrato --}}
+<div class="modal fade" id="modalExtrato" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Gerar Extrato de Recebimentos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="{{ route('financeiro.relatorios.extrato') }}" method="GET" target="_blank">
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <label class="form-label fw-semibold">De</label>
+                            <input type="date" name="de" class="form-control"
+                                   value="{{ now()->startOfMonth()->format('Y-m-d') }}" required>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label fw-semibold">Até</label>
+                            <input type="date" name="ate" class="form-control"
+                                   value="{{ now()->format('Y-m-d') }}" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Gerar PDF</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

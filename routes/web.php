@@ -24,7 +24,9 @@ Route::middleware(['auth'])->group(function () {
         Route::middleware('can:agendar')->group(function () {
             Route::get('agenda', [\App\Http\Controllers\Agenda\AgendaController::class, 'index'])->name('agenda.index');
             Route::get('agenda/slots', [\App\Http\Controllers\Agenda\AgendaController::class, 'slots'])->name('agenda.slots');
-            Route::resource('sessoes', \App\Http\Controllers\Agenda\SessaoController::class)->except(['show']);
+            Route::resource('sessoes', \App\Http\Controllers\Agenda\SessaoController::class)
+                ->except(['show'])
+                ->parameters(['sessoes' => 'sessao']);
             Route::patch('sessoes/{sessao}/status', [\App\Http\Controllers\Agenda\SessaoController::class, 'atualizarStatus'])
                 ->name('sessoes.status');
         });
@@ -34,7 +36,8 @@ Route::middleware(['auth'])->group(function () {
             Route::get('{paciente}', [\App\Http\Controllers\Prontuario\ProntuarioController::class, 'show'])
                 ->name('show');
             Route::resource('{prontuario}/evolucoes', \App\Http\Controllers\Prontuario\EvolucaoController::class)
-                ->shallow();
+                ->shallow()
+                ->parameters(['evolucoes' => 'evolucao']);
             // Anexos de Prontuário
             Route::get('{prontuario}/anexos/create', [\App\Http\Controllers\Prontuario\ProntuarioAnexoController::class, 'create'])
                 ->name('anexos.create');
@@ -81,6 +84,13 @@ Route::middleware(['auth'])->group(function () {
             Route::match(['GET','POST'], 'contas/{conta}/parcelas/{parcela}/pagar',
                 [\App\Http\Controllers\Financeiro\ParcelaController::class, 'pagar'])
                 ->name('parcelas.pagar');
+            // Relatórios PDF
+            Route::get('relatorios/inadimplencia',
+                [\App\Http\Controllers\Financeiro\RelatorioController::class, 'inadimplencia'])
+                ->name('relatorios.inadimplencia');
+            Route::get('relatorios/extrato',
+                [\App\Http\Controllers\Financeiro\RelatorioController::class, 'extrato'])
+                ->name('relatorios.extrato');
         });
 
         // LGPD — apenas admin
@@ -95,7 +105,8 @@ Route::middleware(['auth'])->group(function () {
 
         // Administração — apenas admin (Lucylady)
         Route::middleware('can:admin')->group(function () {
-            Route::resource('profissionais', \App\Http\Controllers\Admin\ProfissionalController::class);
+            Route::resource('profissionais', \App\Http\Controllers\Admin\ProfissionalController::class)
+                ->parameters(['profissionais' => 'profissional']);
             Route::resource('usuarios', \App\Http\Controllers\Admin\UsuarioController::class);
             Route::get('admin/agenda-config', [\App\Http\Controllers\Admin\AgendaConfiguracaoController::class, 'index'])
                 ->name('admin.agenda-config.index');

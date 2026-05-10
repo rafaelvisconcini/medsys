@@ -4,7 +4,7 @@
 @section('header-actions')
     <a href="{{ route('prontuarios.show', $evolucao->prontuario->paciente_id) }}" class="btn btn-outline-secondary btn-sm">&larr; Prontuário</a>
     @can('update', $evolucao)
-    <a href="{{ route('evolucoes.edit', $evolucao) }}" class="btn btn-outline-primary btn-sm">Editar</a>
+    <a href="{{ route('prontuarios.evolucoes.edit', [$evolucao->prontuario_id, $evolucao]) }}" class="btn btn-outline-primary btn-sm">Editar</a>
     @endcan
 @endsection
 

@@ -77,9 +77,9 @@
                     @endif
                 </div>
                 <div class="d-flex gap-1">
-                    <a href="{{ route('evolucoes.show', $ev) }}" class="btn btn-sm btn-outline-secondary">Ver</a>
+                    <a href="{{ route('prontuarios.evolucoes.show', [$prontuario, $ev]) }}" class="btn btn-sm btn-outline-secondary">Ver</a>
                     @can('update', $ev)
-                    <a href="{{ route('evolucoes.edit', $ev) }}" class="btn btn-sm btn-outline-primary">Editar</a>
+                    <a href="{{ route('prontuarios.evolucoes.edit', [$prontuario, $ev]) }}" class="btn btn-sm btn-outline-primary">Editar</a>
                     @endcan
                 </div>
             </div>
@@ -287,4 +287,21 @@
     </div>
 
 </div>
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const hash = window.location.hash;
+    if (hash) {
+        const trigger = document.querySelector('#prontTab a[href="' + hash + '"]');
+        if (trigger) bootstrap.Tab.getOrCreateInstance(trigger).show();
+    }
+    document.querySelectorAll('#prontTab a[data-bs-toggle="tab"]').forEach(function (el) {
+        el.addEventListener('shown.bs.tab', function (e) {
+            history.replaceState(null, null, e.target.getAttribute('href'));
+        });
+    });
+});
+</script>
+@endpush
 @endsection

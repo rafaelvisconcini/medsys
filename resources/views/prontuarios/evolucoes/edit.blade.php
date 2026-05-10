@@ -10,7 +10,7 @@
     <div class="col-lg-9">
         <div class="card border-0 shadow-sm">
             <div class="card-body p-4">
-                <form action="{{ route('evolucoes.update', $evolucao) }}" method="POST">
+                <form action="{{ route('prontuarios.evolucoes.update', [$evolucao->prontuario_id, $evolucao]) }}" method="POST">
                     @csrf @method('PUT')
 
                     @if($errors->any())
@@ -65,7 +65,7 @@
                         </div>
                         <div class="col-12 d-flex justify-content-between">
                             @can('delete', $evolucao)
-                            <form action="{{ route('evolucoes.destroy', $evolucao) }}" method="POST"
+                            <form action="{{ route('prontuarios.evolucoes.destroy', [$evolucao->prontuario_id, $evolucao]) }}" method="POST"
                                   onsubmit="return confirm('Remover esta evolução permanentemente?')">
                                 @csrf @method('DELETE')
                                 <button type="submit" class="btn btn-outline-danger btn-sm">Remover</button>
