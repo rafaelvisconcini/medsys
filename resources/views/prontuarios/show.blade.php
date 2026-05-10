@@ -218,13 +218,72 @@
 
     {{-- TAB: Anexos --}}
     <div class="tab-pane fade" id="tab-anexos">
-        <div class="text-center text-muted py-5">
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" viewBox="0 0 16 16" class="mb-2 opacity-50">
-                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
-                <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708z"/>
-            </svg>
-            <p>Upload de anexos disponível em breve.</p>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 class="fw-semibold mb-0 text-secondary">Arquivos Anexados</h6>
+            @can('ver-prontuario')
+            <a href="{{ route('prontuarios.anexos.create', $prontuario) }}" class="btn btn-primary btn-sm">
+                + Novo Anexo
+            </a>
+            @endcan
         </div>
+
+        @forelse ($anexos as $anx)
+        @php
+            $tipoLabels = [
+                'avaliacao' => ['label' => 'Avaliação',  'color' => 'bg-info text-dark'],
+                'laudo'     => ['label' => 'Laudo',      'color' => 'bg-primary'],
+                'relatorio' => ['label' => 'Relatório',  'color' => 'bg-secondary'],
+                'imagem'    => ['label' => 'Imagem',     'color' => 'bg-success'],
+                'outro'     => ['label' => 'Outro',      'color' => 'bg-light text-dark border'],
+            ];
+            $tc = $tipoLabels[$anx->tipo] ?? ['label' => $anx->tipo, 'color' => 'bg-secondary'];
+            $kb = round($anx->tamanho_bytes / 1024);
+            $tamanho = $anx->tamanho_bytes >= 1024 * 1024
+                ? number_format($anx->tamanho_bytes / (1024 * 1024), 2) . ' MB'
+                : $kb . ' KB';
+        @endphp
+        <div class="card border-0 shadow-sm mb-3">
+            <div class="card-body py-3">
+                <div class="d-flex align-items-start justify-content-between gap-3">
+                    <div class="flex-grow-1">
+                        <div class="d-flex align-items-center gap-2 mb-1">
+                            <span class="badge {{ $tc['color'] }}">{{ $tc['label'] }}</span>
+                            <span class="fw-semibold">{{ $anx->nome_original }}</span>
+                            <span class="text-muted small">{{ $tamanho }}</span>
+                        </div>
+                        @if($anx->descricao)
+                            <p class="mb-1 text-secondary small">{{ $anx->descricao }}</p>
+                        @endif
+                        <div class="text-muted small">
+                            Enviado por {{ $anx->uploader->name }}
+                            @if($anx->data_documento)
+                                · Documento de {{ \Carbon\Carbon::parse($anx->data_documento)->format('d/m/Y') }}
+                            @endif
+                            · {{ $anx->created_at->format('d/m/Y H:i') }}
+                            @if($anx->evolucao_id)
+                                · <span class="badge bg-light text-dark border">Vinculado a evolução</span>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="d-flex gap-1 flex-shrink-0">
+                        <a href="{{ route('prontuarios.anexos.download', $anx) }}"
+                           class="btn btn-sm btn-outline-secondary">Baixar</a>
+                        @if(auth()->user()->isAdmin() || $anx->uploaded_por === auth()->id())
+                        <form action="{{ route('prontuarios.anexos.destroy', $anx) }}" method="POST"
+                              onsubmit="return confirm('Remover este anexo permanentemente?')">
+                            @csrf @method('DELETE')
+                            <button class="btn btn-sm btn-outline-danger">Remover</button>
+                        </form>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+        @empty
+        <div class="text-center text-muted py-5">Nenhum arquivo anexado.</div>
+        @endforelse
+
+        {{ $anexos->appends(['evolucoes_page' => $evolucoes->currentPage()])->links() }}
     </div>
 
 </div>

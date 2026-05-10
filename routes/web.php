@@ -35,6 +35,16 @@ Route::middleware(['auth'])->group(function () {
                 ->name('show');
             Route::resource('{prontuario}/evolucoes', \App\Http\Controllers\Prontuario\EvolucaoController::class)
                 ->shallow();
+            // Anexos de Prontuário
+            Route::get('{prontuario}/anexos/create', [\App\Http\Controllers\Prontuario\ProntuarioAnexoController::class, 'create'])
+                ->name('anexos.create');
+            Route::post('{prontuario}/anexos', [\App\Http\Controllers\Prontuario\ProntuarioAnexoController::class, 'store'])
+                ->name('anexos.store');
+            Route::get('anexos/{anexo}/download', [\App\Http\Controllers\Prontuario\ProntuarioAnexoController::class, 'download'])
+                ->name('anexos.download');
+            Route::delete('anexos/{anexo}', [\App\Http\Controllers\Prontuario\ProntuarioAnexoController::class, 'destroy'])
+                ->name('anexos.destroy');
+
             // Planos Terapêuticos
             Route::get('{prontuario}/planos/create', [\App\Http\Controllers\Prontuario\PlanoTerapeuticoController::class, 'create'])
                 ->name('planos.create');
