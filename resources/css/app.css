@@ -1,0 +1,16 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 0.9rem;
+}
+
+#sidebar .nav-link {
+    padding: .4rem .75rem;
+    border-radius: .375rem;
+    transition: background .15s;
+}
+
+#sidebar .nav-link:hover {
+    background: rgba(255,255,255,.15);
+}
