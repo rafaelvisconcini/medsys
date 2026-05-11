@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'MedSys') — Centro Terapêutico</title>
+    <title>@yield('title', 'Theraflow')@hasSection('title') — Theraflow@endif</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -16,13 +16,14 @@
 </head>
 <body>
 
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
 <div class="app-wrapper" id="wrapper">
 
     {{-- Sidebar --}}
     <aside id="sidebar">
         <a href="{{ route('dashboard') }}" class="sidebar-brand">
             <div class="brand-icon"><i class="bi bi-heart-pulse-fill"></i></div>
-            <span class="brand-name">MedSys</span>
+            <span class="brand-name">Theraflow</span>
         </a>
 
         <nav class="sidebar-nav">
@@ -98,6 +99,9 @@
     {{-- Conteúdo principal --}}
     <div class="main-wrapper">
         <header class="topbar">
+            <button class="sidebar-toggle d-md-none" id="sidebarToggle" aria-label="Menu">
+                <i class="bi bi-list"></i>
+            </button>
             <h6 class="page-title mb-0">@yield('page-title', 'Dashboard')</h6>
             @can('gerenciar-pacientes')
             <div class="search-wrapper"><livewire:busca-paciente /></div>
@@ -130,6 +134,19 @@
 
 @livewireScripts
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+(function () {
+    const toggle  = document.getElementById('sidebarToggle');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    function close() { sidebar.classList.remove('open'); overlay.classList.remove('show'); }
+    if (toggle) toggle.addEventListener('click', function () {
+        const open = sidebar.classList.toggle('open');
+        overlay.classList.toggle('show', open);
+    });
+    if (overlay) overlay.addEventListener('click', close);
+})();
+</script>
 @stack('scripts')
 </body>
 </html>

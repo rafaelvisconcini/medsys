@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'MedSys') — Centro Terapêutico</title>
+    <title>@yield('title', 'Theraflow')@hasSection('title') — Theraflow@endif</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -17,7 +17,7 @@
         <div class="auth-brand">
             <div class="auth-brand-inner">
                 <div class="brand-icon-lg"><i class="bi bi-heart-pulse-fill"></i></div>
-                <h1 class="auth-brand-name">MedSys</h1>
+                <h1 class="auth-brand-name">Theraflow</h1>
                 <p class="auth-brand-sub">Centro Terapêutico Infantil</p>
                 <p class="auth-brand-tagline">
                     Gestão integrada de pacientes, agenda e prontuários para clínicas multidisciplinares.

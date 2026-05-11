@@ -72,6 +72,6 @@
     </table>
     @endif
 
-    <div class="footer">MedSys · Centro Terapêutico — Documento gerado automaticamente</div>
+    <div class="footer">Theraflow · Centro Terapêutico — Documento gerado automaticamente</div>
 </body>
 </html>
