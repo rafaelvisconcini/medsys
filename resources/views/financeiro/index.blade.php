@@ -3,77 +3,79 @@
 @section('page-title', 'Financeiro')
 
 @section('header-actions')
-    <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modalExtrato">
-        Extrato PDF
+    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalExtrato">
+        <i class="bi bi-file-earmark-pdf"></i> Extrato PDF
     </button>
-    <a href="{{ route('financeiro.relatorios.inadimplencia') }}" class="btn btn-outline-danger btn-sm" target="_blank">
-        Inadimplência PDF
+    <a href="{{ route('financeiro.relatorios.inadimplencia') }}" class="btn btn-sm btn-outline-danger" target="_blank">
+        <i class="bi bi-exclamation-triangle"></i> Inadimplência
     </a>
-    <a href="{{ route('financeiro.contas.create') }}" class="btn btn-outline-primary btn-sm">+ Cobrança Manual</a>
-    <a href="{{ route('financeiro.contratos.index') }}" class="btn btn-primary btn-sm">Contratos</a>
+    <a href="{{ route('financeiro.contas.create') }}" class="btn btn-sm btn-outline-primary">
+        <i class="bi bi-plus-lg"></i> Cobrança Manual
+    </a>
+    <a href="{{ route('financeiro.contratos.index') }}" class="btn btn-sm btn-primary">
+        <i class="bi bi-file-earmark-text"></i> Contratos
+    </a>
 @endsection
 
 @section('content')
 
-{{-- Cards de resumo --}}
-<div class="row g-3 mb-4">
+{{-- Stat cards --}}
+<div class="row g-4 mb-4">
     <div class="col-sm-6 col-xl-3">
-        <div class="card border-0 shadow-sm h-100">
+        <div class="card h-100">
             <div class="card-body d-flex align-items-center gap-3">
-                <div class="rounded-3 bg-success bg-opacity-10 p-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#198754" viewBox="0 0 16 16">
-                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-                        <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05"/>
-                    </svg>
+                <div class="stat-icon" style="background:#f0fdf4;">
+                    <i class="bi bi-check-circle-fill" style="color:#16a34a;"></i>
                 </div>
                 <div>
-                    <div class="text-muted small">Recebido este mês</div>
-                    <div class="fs-5 fw-bold text-success">R$ {{ number_format($recebidoMes, 2, ',', '.') }}</div>
+                    <div style="font-size:.75rem;color:#6b7280;font-weight:500;text-transform:uppercase;letter-spacing:.04em;">Recebido este mês</div>
+                    <div style="font-size:1.375rem;font-weight:700;color:#16a34a;line-height:1.2;">
+                        R$ {{ number_format($recebidoMes, 2, ',', '.') }}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="col-sm-6 col-xl-3">
-        <div class="card border-0 shadow-sm h-100">
+        <div class="card h-100">
             <div class="card-body d-flex align-items-center gap-3">
-                <div class="rounded-3 bg-warning bg-opacity-10 p-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#ffc107" viewBox="0 0 16 16">
-                        <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2"/>
-                    </svg>
+                <div class="stat-icon" style="background:#fffbeb;">
+                    <i class="bi bi-hourglass-split" style="color:#d97706;"></i>
                 </div>
                 <div>
-                    <div class="text-muted small">Total a receber</div>
-                    <div class="fs-5 fw-bold">R$ {{ number_format($pendenteTotal, 2, ',', '.') }}</div>
+                    <div style="font-size:.75rem;color:#6b7280;font-weight:500;text-transform:uppercase;letter-spacing:.04em;">Total a receber</div>
+                    <div style="font-size:1.375rem;font-weight:700;color:#111827;line-height:1.2;">
+                        R$ {{ number_format($pendenteTotal, 2, ',', '.') }}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="col-sm-6 col-xl-3">
-        <div class="card border-0 shadow-sm h-100">
+        <div class="card h-100">
             <div class="card-body d-flex align-items-center gap-3">
-                <div class="rounded-3 bg-danger bg-opacity-10 p-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#dc3545" viewBox="0 0 16 16">
-                        <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
-                    </svg>
+                <div class="stat-icon" style="background:#fff1f2;">
+                    <i class="bi bi-exclamation-circle-fill" style="color:#dc2626;"></i>
                 </div>
                 <div>
-                    <div class="text-muted small">Em atraso</div>
-                    <div class="fs-5 fw-bold text-danger">{{ $atrasadasCount }}</div>
+                    <div style="font-size:.75rem;color:#6b7280;font-weight:500;text-transform:uppercase;letter-spacing:.04em;">Em atraso</div>
+                    <div style="font-size:1.375rem;font-weight:700;color:#dc2626;line-height:1.2;">{{ $atrasadasCount }}</div>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="col-sm-6 col-xl-3">
-        <div class="card border-0 shadow-sm h-100">
+        <div class="card h-100">
             <div class="card-body d-flex align-items-center gap-3">
-                <div class="rounded-3 bg-primary bg-opacity-10 p-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#0d6efd" viewBox="0 0 16 16">
-                        <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
-                    </svg>
+                <div class="stat-icon" style="background:#eff6ff;">
+                    <i class="bi bi-calendar-event-fill" style="color:#2563eb;"></i>
                 </div>
                 <div>
-                    <div class="text-muted small">Vencem em 7 dias</div>
-                    <div class="fs-5 fw-bold text-primary">{{ $vencendoSemana }}</div>
+                    <div style="font-size:.75rem;color:#6b7280;font-weight:500;text-transform:uppercase;letter-spacing:.04em;">Vencem em 7 dias</div>
+                    <div style="font-size:1.375rem;font-weight:700;color:#2563eb;line-height:1.2;">{{ $vencendoSemana }}</div>
                 </div>
             </div>
         </div>
@@ -81,28 +83,36 @@
 </div>
 
 <div class="row g-4">
-    {{-- Contas em atraso --}}
+    {{-- Em atraso --}}
     <div class="col-lg-6">
-        <div class="card border-0 shadow-sm h-100">
-            <div class="card-header bg-white fw-semibold d-flex justify-content-between">
-                <span class="text-danger">Em Atraso</span>
-                <a href="{{ route('financeiro.contas.index', ['status' => 'pendente']) }}" class="btn btn-sm btn-link text-muted p-0">Ver todas</a>
+        <div class="card h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span style="color:#dc2626;"><i class="bi bi-exclamation-circle me-2"></i>Em Atraso</span>
+                <a href="{{ route('financeiro.contas.index', ['status' => 'pendente']) }}"
+                   class="btn btn-sm btn-link" style="font-size:.8125rem;">Ver todas</a>
             </div>
             <div class="card-body p-0">
                 @forelse ($atrasadas as $c)
-                <div class="d-flex align-items-center px-3 py-2 border-bottom">
-                    <div class="flex-grow-1">
-                        <div class="fw-semibold small">{{ $c->paciente->nome }}</div>
-                        <div class="text-muted" style="font-size:.8rem;">{{ $c->descricao }}</div>
+                <div class="d-flex align-items-center px-4 py-3 border-bottom">
+                    <div style="flex:1;">
+                        <div style="font-weight:600;font-size:.875rem;color:#111827;">{{ $c->paciente->nome }}</div>
+                        <div style="font-size:.75rem;color:#9ca3af;">{{ $c->descricao }}</div>
                     </div>
-                    <div class="text-end ms-3">
-                        <div class="fw-bold text-danger small">R$ {{ number_format($c->valor_total, 2, ',', '.') }}</div>
-                        <div class="text-muted" style="font-size:.75rem;">{{ $c->data_vencimento->format('d/m/Y') }}</div>
+                    <div class="text-end me-3">
+                        <div style="font-weight:700;font-size:.875rem;color:#dc2626;">
+                            R$ {{ number_format($c->valor_total, 2, ',', '.') }}
+                        </div>
+                        <div style="font-size:.75rem;color:#9ca3af;">{{ $c->data_vencimento->format('d/m/Y') }}</div>
                     </div>
-                    <a href="{{ route('financeiro.contas.show', $c) }}" class="btn btn-sm btn-outline-danger ms-2">Pagar</a>
+                    <a href="{{ route('financeiro.contas.show', $c) }}" class="btn btn-sm btn-outline-danger">
+                        Pagar
+                    </a>
                 </div>
                 @empty
-                <p class="text-center text-muted py-4 mb-0">Nenhuma conta em atraso.</p>
+                <div class="d-flex flex-column align-items-center justify-content-center py-5" style="color:#9ca3af;">
+                    <i class="bi bi-check-circle" style="font-size:2rem;opacity:.3;"></i>
+                    <p class="mt-2 mb-0" style="font-size:.875rem;">Nenhuma conta em atraso.</p>
+                </div>
                 @endforelse
             </div>
         </div>
@@ -110,26 +120,31 @@
 
     {{-- Próximos vencimentos --}}
     <div class="col-lg-6">
-        <div class="card border-0 shadow-sm h-100">
-            <div class="card-header bg-white fw-semibold d-flex justify-content-between">
-                <span>Vencendo em 7 dias</span>
-                <a href="{{ route('financeiro.contas.index') }}" class="btn btn-sm btn-link text-muted p-0">Ver todas</a>
+        <div class="card h-100">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-calendar-event me-2" style="color:#6b7280;"></i>Vencendo em 7 dias</span>
+                <a href="{{ route('financeiro.contas.index') }}" class="btn btn-sm btn-link" style="font-size:.8125rem;">Ver todas</a>
             </div>
             <div class="card-body p-0">
                 @forelse ($proximasVencer as $c)
-                <div class="d-flex align-items-center px-3 py-2 border-bottom">
-                    <div class="flex-grow-1">
-                        <div class="fw-semibold small">{{ $c->paciente->nome }}</div>
-                        <div class="text-muted" style="font-size:.8rem;">{{ $c->descricao }}</div>
+                <div class="d-flex align-items-center px-4 py-3 border-bottom">
+                    <div style="flex:1;">
+                        <div style="font-weight:600;font-size:.875rem;color:#111827;">{{ $c->paciente->nome }}</div>
+                        <div style="font-size:.75rem;color:#9ca3af;">{{ $c->descricao }}</div>
                     </div>
-                    <div class="text-end ms-3">
-                        <div class="fw-bold small">R$ {{ number_format($c->valor_total, 2, ',', '.') }}</div>
-                        <div class="text-muted" style="font-size:.75rem;">{{ $c->data_vencimento->format('d/m/Y') }}</div>
+                    <div class="text-end me-3">
+                        <div style="font-weight:700;font-size:.875rem;color:#111827;">
+                            R$ {{ number_format($c->valor_total, 2, ',', '.') }}
+                        </div>
+                        <div style="font-size:.75rem;color:#9ca3af;">{{ $c->data_vencimento->format('d/m/Y') }}</div>
                     </div>
-                    <a href="{{ route('financeiro.contas.show', $c) }}" class="btn btn-sm btn-outline-primary ms-2">Ver</a>
+                    <a href="{{ route('financeiro.contas.show', $c) }}" class="btn btn-sm btn-outline-primary">Ver</a>
                 </div>
                 @empty
-                <p class="text-center text-muted py-4 mb-0">Nenhum vencimento nos próximos 7 dias.</p>
+                <div class="d-flex flex-column align-items-center justify-content-center py-5" style="color:#9ca3af;">
+                    <i class="bi bi-calendar-check" style="font-size:2rem;opacity:.3;"></i>
+                    <p class="mt-2 mb-0" style="font-size:.875rem;">Nenhum vencimento nos próximos 7 dias.</p>
+                </div>
                 @endforelse
             </div>
         </div>
@@ -137,26 +152,33 @@
 
     {{-- Últimos pagamentos --}}
     <div class="col-12">
-        <div class="card border-0 shadow-sm">
-            <div class="card-header bg-white fw-semibold">Últimos Pagamentos</div>
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-clock-history me-2" style="color:#6b7280;"></i>Últimos Pagamentos
+            </div>
             <div class="card-body p-0">
                 @forelse ($ultimosPagamentos as $p)
-                <div class="d-flex align-items-center px-3 py-2 border-bottom">
+                <div class="d-flex align-items-center px-4 py-3 border-bottom">
                     <span class="badge bg-success me-3">Pago</span>
-                    <div class="flex-grow-1">
-                        <div class="small fw-semibold">{{ $p->conta->paciente->nome }}</div>
-                        <div class="text-muted" style="font-size:.8rem;">{{ $p->conta->descricao }}</div>
+                    <div style="flex:1;">
+                        <div style="font-size:.875rem;font-weight:600;color:#111827;">{{ $p->conta->paciente->nome }}</div>
+                        <div style="font-size:.75rem;color:#9ca3af;">{{ $p->conta->descricao }}</div>
                     </div>
                     <div class="text-end">
-                        <div class="fw-bold small text-success">R$ {{ number_format($p->valor, 2, ',', '.') }}</div>
-                        <div class="text-muted" style="font-size:.75rem;">
+                        <div style="font-weight:700;font-size:.875rem;color:#16a34a;">
+                            R$ {{ number_format($p->valor, 2, ',', '.') }}
+                        </div>
+                        <div style="font-size:.75rem;color:#9ca3af;">
                             {{ $p->data_pagamento->format('d/m/Y') }}
-                            — {{ \App\Models\Parcela::formasPagamento()[$p->forma_pagamento] ?? $p->forma_pagamento }}
+                            &middot; {{ \App\Models\Parcela::formasPagamento()[$p->forma_pagamento] ?? $p->forma_pagamento }}
                         </div>
                     </div>
                 </div>
                 @empty
-                <p class="text-center text-muted py-4 mb-0">Nenhum pagamento registrado.</p>
+                <div class="d-flex flex-column align-items-center justify-content-center py-5" style="color:#9ca3af;">
+                    <i class="bi bi-cash" style="font-size:2rem;opacity:.3;"></i>
+                    <p class="mt-2 mb-0" style="font-size:.875rem;">Nenhum pagamento registrado.</p>
+                </div>
                 @endforelse
             </div>
         </div>
@@ -166,29 +188,31 @@
 {{-- Modal extrato --}}
 <div class="modal fade" id="modalExtrato" tabindex="-1">
     <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Gerar Extrato de Recebimentos</h5>
+        <div class="modal-content" style="border-radius:.75rem;border:1px solid #e5e7eb;">
+            <div class="modal-header" style="border-bottom:1px solid #e5e7eb;padding:1.25rem 1.5rem;">
+                <h5 class="modal-title" style="font-size:1rem;font-weight:600;">Gerar Extrato de Recebimentos</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <form action="{{ route('financeiro.relatorios.extrato') }}" method="GET" target="_blank">
-                <div class="modal-body">
+                <div class="modal-body" style="padding:1.5rem;">
                     <div class="row g-3">
                         <div class="col-6">
-                            <label class="form-label fw-semibold">De</label>
+                            <label class="form-label">De</label>
                             <input type="date" name="de" class="form-control"
                                    value="{{ now()->startOfMonth()->format('Y-m-d') }}" required>
                         </div>
                         <div class="col-6">
-                            <label class="form-label fw-semibold">Até</label>
+                            <label class="form-label">Até</label>
                             <input type="date" name="ate" class="form-control"
                                    value="{{ now()->format('Y-m-d') }}" required>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer" style="border-top:1px solid #e5e7eb;padding:1rem 1.5rem;gap:.5rem;">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Gerar PDF</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-file-earmark-pdf me-1"></i>Gerar PDF
+                    </button>
                 </div>
             </form>
         </div>
