@@ -5,144 +5,137 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'MedSys') — Centro Terapêutico</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
     @stack('styles')
 </head>
 <body>
 
-<div class="d-flex" id="wrapper">
+<div class="app-wrapper" id="wrapper">
 
     {{-- Sidebar --}}
-    <nav id="sidebar" class="bg-primary text-white d-flex flex-column p-3" style="min-width:240px;min-height:100vh;">
-        <a href="{{ route('dashboard') }}" class="text-white text-decoration-none mb-4 d-flex align-items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
-                <path d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"/>
-            </svg>
-            <span class="fs-5 fw-bold">MedSys</span>
+    <aside id="sidebar">
+        <a href="{{ route('dashboard') }}" class="sidebar-brand">
+            <div class="brand-icon">
+                <i class="bi bi-heart-pulse-fill"></i>
+            </div>
+            <span class="brand-name">MedSys</span>
         </a>
 
-        <ul class="nav flex-column gap-1 flex-grow-1">
-            <li class="nav-item">
-                <a href="{{ route('dashboard') }}"
-                   class="nav-link text-white @if(request()->routeIs('dashboard')) bg-white bg-opacity-25 rounded @endif">
-                    Dashboard
-                </a>
-            </li>
+        <nav class="sidebar-nav">
+            <a href="{{ route('dashboard') }}"
+               class="nav-link @if(request()->routeIs('dashboard')) active @endif">
+                <i class="bi bi-grid-1x2-fill nav-icon"></i>
+                <span>Dashboard</span>
+            </a>
 
             @can('gerenciar-pacientes')
-            <li class="nav-item">
-                <a href="{{ route('pacientes.index') }}"
-                   class="nav-link text-white @if(request()->routeIs('pacientes.*')) bg-white bg-opacity-25 rounded @endif">
-                    Pacientes
-                </a>
-            </li>
+            <a href="{{ route('pacientes.index') }}"
+               class="nav-link @if(request()->routeIs('pacientes.*')) active @endif">
+                <i class="bi bi-people-fill nav-icon"></i>
+                <span>Pacientes</span>
+            </a>
             @endcan
 
             @can('agendar')
-            <li class="nav-item">
-                <a href="{{ route('agenda.index') }}"
-                   class="nav-link text-white @if(request()->routeIs('agenda.*')) bg-white bg-opacity-25 rounded @endif">
-                    Agenda
-                </a>
-            </li>
+            <a href="{{ route('agenda.index') }}"
+               class="nav-link @if(request()->routeIs('agenda.*')) active @endif">
+                <i class="bi bi-calendar3 nav-icon"></i>
+                <span>Agenda</span>
+            </a>
             @endcan
 
             @can('ver-prontuario')
-            <li class="nav-item">
-                <a href="{{ route('pacientes.index') }}"
-                   class="nav-link text-white @if(request()->routeIs('prontuarios.*')) bg-white bg-opacity-25 rounded @endif">
-                    Prontuários
-                </a>
-            </li>
+            <a href="{{ route('pacientes.index') }}"
+               class="nav-link @if(request()->routeIs('prontuarios.*')) active @endif">
+                <i class="bi bi-journal-medical nav-icon"></i>
+                <span>Prontuários</span>
+            </a>
             @endcan
 
             @can('acessar-financeiro')
-            <li class="nav-item">
-                <a href="{{ route('financeiro.index') }}"
-                   class="nav-link text-white @if(request()->routeIs('financeiro.*')) bg-white bg-opacity-25 rounded @endif">
-                    Financeiro
-                </a>
-            </li>
+            <a href="{{ route('financeiro.index') }}"
+               class="nav-link @if(request()->routeIs('financeiro.*')) active @endif">
+                <i class="bi bi-cash-stack nav-icon"></i>
+                <span>Financeiro</span>
+            </a>
             @endcan
 
             @can('admin')
-            <li class="mt-3">
-                <small class="text-white-50 text-uppercase fw-semibold px-2">Administração</small>
-            </li>
-            <li class="nav-item">
-                <a href="{{ route('profissionais.index') }}"
-                   class="nav-link text-white @if(request()->routeIs('profissionais.*')) bg-white bg-opacity-25 rounded @endif">
-                    Profissionais
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ route('usuarios.index') }}"
-                   class="nav-link text-white @if(request()->routeIs('usuarios.*')) bg-white bg-opacity-25 rounded @endif">
-                    Usuários
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ route('admin.agenda-config.index') }}"
-                   class="nav-link text-white @if(request()->routeIs('admin.agenda-config.*')) bg-white bg-opacity-25 rounded @endif">
-                    Config. Agenda
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{ route('lgpd.audit.index') }}"
-                   class="nav-link text-white @if(request()->routeIs('lgpd.*')) bg-white bg-opacity-25 rounded @endif">
-                    Auditoria (LGPD)
-                </a>
-            </li>
+            <div class="nav-section-label">Administração</div>
+            <a href="{{ route('profissionais.index') }}"
+               class="nav-link @if(request()->routeIs('profissionais.*')) active @endif">
+                <i class="bi bi-person-badge nav-icon"></i>
+                <span>Profissionais</span>
+            </a>
+            <a href="{{ route('usuarios.index') }}"
+               class="nav-link @if(request()->routeIs('usuarios.*')) active @endif">
+                <i class="bi bi-person-gear nav-icon"></i>
+                <span>Usuários</span>
+            </a>
+            <a href="{{ route('admin.agenda-config.index') }}"
+               class="nav-link @if(request()->routeIs('admin.agenda-config.*')) active @endif">
+                <i class="bi bi-gear nav-icon"></i>
+                <span>Config. Agenda</span>
+            </a>
+            <a href="{{ route('lgpd.audit.index') }}"
+               class="nav-link @if(request()->routeIs('lgpd.*')) active @endif">
+                <i class="bi bi-shield-check nav-icon"></i>
+                <span>Auditoria (LGPD)</span>
+            </a>
             @endcan
-        </ul>
+        </nav>
 
-        <div class="border-top border-white border-opacity-25 pt-3 mt-2">
-            <div class="d-flex align-items-center gap-2">
-                <div class="rounded-circle bg-white bg-opacity-25 d-flex align-items-center justify-content-center"
-                     style="width:36px;height:36px;font-weight:bold;">
-                    {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
-                </div>
-                <div class="flex-grow-1 overflow-hidden">
-                    <div class="text-white fw-semibold text-truncate small">{{ auth()->user()->name }}</div>
-                    <div class="text-white-50" style="font-size:.75rem;">{{ auth()->user()->perfil->label() }}</div>
-                </div>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="btn btn-link text-white p-0" title="Sair">&#x2192;</button>
-                </form>
+        <div class="sidebar-user">
+            <div class="user-avatar">
+                {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
             </div>
+            <div class="user-info">
+                <div class="user-name">{{ auth()->user()->name }}</div>
+                <div class="user-role">{{ auth()->user()->perfil->label() }}</div>
+            </div>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="btn-logout" title="Sair">
+                    <i class="bi bi-box-arrow-right"></i>
+                </button>
+            </form>
         </div>
-    </nav>
+    </aside>
 
     {{-- Conteúdo principal --}}
-    <div class="flex-grow-1 d-flex flex-column bg-light">
-        <header class="bg-white border-bottom px-4 py-2 d-flex align-items-center justify-content-between shadow-sm gap-3">
-            <h6 class="mb-0 fw-semibold text-secondary text-nowrap">@yield('page-title', 'Dashboard')</h6>
+    <div class="main-wrapper">
+        <header class="topbar">
+            <h6 class="page-title mb-0">@yield('page-title', 'Dashboard')</h6>
             @can('gerenciar-pacientes')
-            <livewire:busca-paciente />
+            <div class="search-wrapper">
+                <livewire:busca-paciente />
+            </div>
             @endcan
-            <div class="d-flex gap-2 align-items-center">
+            <div class="header-actions">
                 @yield('header-actions')
             </div>
         </header>
 
+        @if(session('success') || session('error'))
         <div class="px-4 pt-3">
             @if(session('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    {{ session('success') }}
+                    <i class="bi bi-check-circle-fill me-2"></i>{{ session('success') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             @endif
             @if(session('error'))
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    {{ session('error') }}
+                    <i class="bi bi-exclamation-circle-fill me-2"></i>{{ session('error') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             @endif
         </div>
+        @endif
 
-        <main class="flex-grow-1 p-4">
+        <main class="page-content">
             @yield('content')
         </main>
     </div>

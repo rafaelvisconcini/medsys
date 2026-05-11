@@ -11,6 +11,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->trustProxies(at: '*');
         $middleware->append(\App\Http\Middleware\SecureHeaders::class);
         $middleware->appendToGroup('web', \App\Http\Middleware\VerificarUsuarioAtivo::class);
         $middleware->alias([
