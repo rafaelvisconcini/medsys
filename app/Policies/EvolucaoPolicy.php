@@ -8,36 +8,32 @@ use App\Models\User;
 
 class EvolucaoPolicy
 {
-    // Profissional só lê e escreve evoluções onde é o autor
     public function viewAny(User $user): bool
     {
-        return in_array($user->perfil, [PerfilUsuario::Admin, PerfilUsuario::Profissional]);
+        return $user->perfil->temAcessoAdmin() || $user->perfil === PerfilUsuario::Profissional;
     }
 
     public function view(User $user, Evolucao $evolucao): bool
     {
-        if ($user->perfil === PerfilUsuario::Admin) return true;
+        if ($user->perfil->temAcessoAdmin()) return true;
 
-        // Profissional só vê sua própria especialidade
         return $user->profissional?->id === $evolucao->profissional_id;
     }
 
     public function create(User $user): bool
     {
-        return in_array($user->perfil, [PerfilUsuario::Admin, PerfilUsuario::Profissional]);
+        return $user->perfil->temAcessoAdmin() || $user->perfil === PerfilUsuario::Profissional;
     }
 
     public function update(User $user, Evolucao $evolucao): bool
     {
-        if ($user->perfil === PerfilUsuario::Admin) return true;
+        if ($user->perfil->temAcessoAdmin()) return true;
 
-        // Só o autor pode editar
         return $user->profissional?->id === $evolucao->profissional_id;
     }
 
     public function delete(User $user, Evolucao $evolucao): bool
     {
-        // Apenas admin pode remover evoluções (dado clínico sensível)
-        return $user->perfil === PerfilUsuario::Admin;
+        return $user->perfil->temAcessoAdmin();
     }
 }

@@ -10,8 +10,7 @@ class SessaoPolicy
 {
     public function viewAny(User $user): bool
     {
-        return in_array($user->perfil, [
-            PerfilUsuario::Admin,
+        return $user->perfil->temAcessoAdmin() || in_array($user->perfil, [
             PerfilUsuario::Profissional,
             PerfilUsuario::Recepcionista,
         ]);
@@ -19,16 +18,14 @@ class SessaoPolicy
 
     public function view(User $user, Sessao $sessao): bool
     {
-        if (in_array($user->perfil, [PerfilUsuario::Admin, PerfilUsuario::Recepcionista])) return true;
+        if ($user->perfil->temAcessoAdmin() || $user->perfil === PerfilUsuario::Recepcionista) return true;
 
-        // Profissional só vê sessões onde é o responsável
         return $user->profissional?->id === $sessao->profissional_id;
     }
 
     public function create(User $user): bool
     {
-        return in_array($user->perfil, [
-            PerfilUsuario::Admin,
+        return $user->perfil->temAcessoAdmin() || in_array($user->perfil, [
             PerfilUsuario::Profissional,
             PerfilUsuario::Recepcionista,
         ]);
@@ -36,13 +33,13 @@ class SessaoPolicy
 
     public function update(User $user, Sessao $sessao): bool
     {
-        if (in_array($user->perfil, [PerfilUsuario::Admin, PerfilUsuario::Recepcionista])) return true;
+        if ($user->perfil->temAcessoAdmin() || $user->perfil === PerfilUsuario::Recepcionista) return true;
 
         return $user->profissional?->id === $sessao->profissional_id;
     }
 
     public function delete(User $user, Sessao $sessao): bool
     {
-        return in_array($user->perfil, [PerfilUsuario::Admin, PerfilUsuario::Recepcionista]);
+        return $user->perfil->temAcessoAdmin() || $user->perfil === PerfilUsuario::Recepcionista;
     }
 }

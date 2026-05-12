@@ -16,6 +16,7 @@ class UsuarioController extends Controller
                 PerfilUsuario::Recepcionista->value,
                 PerfilUsuario::Financeiro->value,
                 PerfilUsuario::Admin->value,
+                PerfilUsuario::Proprietario->value,
             ])
             ->orderByDesc('created_at')
             ->paginate(20);
@@ -88,7 +89,11 @@ class UsuarioController extends Controller
     public function destroy(User $usuario)
     {
         if ($usuario->id === auth()->id()) {
-            return back()->withErrors(['geral' => 'Você não pode desativar sua própria conta.']);
+            return back()->with('error', 'Você não pode desativar sua própria conta.');
+        }
+
+        if ($usuario->perfil === PerfilUsuario::Proprietario) {
+            return back()->with('error', 'O proprietário do sistema não pode ser desativado.');
         }
 
         $usuario->update(['ativo' => false]);

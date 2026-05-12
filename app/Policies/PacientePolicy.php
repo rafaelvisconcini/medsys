@@ -17,12 +17,10 @@ class PacientePolicy
     public function view(User $user, Paciente $paciente): bool
     {
         if ($user->perfil === PerfilUsuario::Financeiro) {
-            // Financeiro vê apenas nome + contato do responsável (filtrado na view)
             return true;
         }
 
-        return in_array($user->perfil, [
-            PerfilUsuario::Admin,
+        return $user->perfil->temAcessoAdmin() || in_array($user->perfil, [
             PerfilUsuario::Profissional,
             PerfilUsuario::Recepcionista,
         ]);
@@ -30,23 +28,16 @@ class PacientePolicy
 
     public function create(User $user): bool
     {
-        return in_array($user->perfil, [
-            PerfilUsuario::Admin,
-            PerfilUsuario::Recepcionista,
-        ]);
+        return $user->perfil->temAcessoAdmin() || $user->perfil === PerfilUsuario::Recepcionista;
     }
 
     public function update(User $user, Paciente $paciente): bool
     {
-        return in_array($user->perfil, [
-            PerfilUsuario::Admin,
-            PerfilUsuario::Recepcionista,
-        ]);
+        return $user->perfil->temAcessoAdmin() || $user->perfil === PerfilUsuario::Recepcionista;
     }
 
     public function delete(User $user, Paciente $paciente): bool
     {
-        // Apenas admin pode desativar paciente
-        return $user->perfil === PerfilUsuario::Admin;
+        return $user->perfil->temAcessoAdmin();
     }
 }

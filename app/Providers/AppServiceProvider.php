@@ -44,21 +44,21 @@ class AppServiceProvider extends ServiceProvider
 
         // Gates de módulo
         Gate::define('admin', fn(User $u) =>
-            $u->perfil === PerfilUsuario::Admin
+            $u->perfil->temAcessoAdmin()
         );
 
         Gate::define('acessar-financeiro', fn(User $u) =>
-            in_array($u->perfil, [PerfilUsuario::Admin, PerfilUsuario::Financeiro])
+            $u->perfil->temAcessoAdmin() || $u->perfil === PerfilUsuario::Financeiro
         );
 
         // Prontuário: apenas admin e profissionais — cada um vê só o seu (Policy)
         Gate::define('ver-prontuario', fn(User $u) =>
-            in_array($u->perfil, [PerfilUsuario::Admin, PerfilUsuario::Profissional])
+            $u->perfil->temAcessoAdmin() || $u->perfil === PerfilUsuario::Profissional
         );
 
         // Agenda: admin, profissional e recepcionista
         Gate::define('agendar', fn(User $u) =>
-            in_array($u->perfil, [PerfilUsuario::Admin, PerfilUsuario::Profissional, PerfilUsuario::Recepcionista])
+            $u->perfil->temAcessoAdmin() || in_array($u->perfil, [PerfilUsuario::Profissional, PerfilUsuario::Recepcionista])
         );
 
         // Pacientes: todos podem ver (com filtro por perfil), só admin/recep editam (Policy)

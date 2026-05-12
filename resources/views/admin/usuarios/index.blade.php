@@ -34,8 +34,10 @@
                     <td class="text-end">
                         <div class="d-flex gap-1 justify-content-end">
                             @if(!$user->trashed())
+                            @if(!$user->isProprietario())
                             <a href="{{ route('usuarios.edit', $user) }}" class="btn btn-sm btn-outline-primary">Editar</a>
-                            @if($user->id !== auth()->id())
+                            @endif
+                            @if($user->id !== auth()->id() && !$user->isProprietario())
                             <button type="button" class="btn btn-sm btn-outline-danger btn-delete"
                                     data-action="{{ route('usuarios.destroy', $user) }}"
                                     data-name="{{ $user->name }}"

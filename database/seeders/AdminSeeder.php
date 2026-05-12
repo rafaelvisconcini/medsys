@@ -12,20 +12,32 @@ class AdminSeeder extends Seeder
 {
     public function run(): void
     {
-        $user = User::firstOrCreate(
+        // Proprietário do sistema — acesso total, imune a exclusão
+        User::firstOrCreate(
+            ['email' => 'rafael@theraflow.local'],
+            [
+                'name'                  => 'Rafael Visconcini',
+                'password'              => bcrypt('Theraflow@2025'),
+                'perfil'                => PerfilUsuario::Proprietario,
+                'ativo'                 => true,
+                'force_password_change' => false,
+            ]
+        );
+
+        // Administradora / Fonoaudióloga
+        $lucylady = User::firstOrCreate(
             ['email' => 'lucylady@clinica.local'],
             [
                 'name'                  => 'Lucylady Visconcini',
                 'password'              => bcrypt('Trocar@Primeiro1'),
                 'perfil'                => PerfilUsuario::Admin,
                 'ativo'                 => true,
-                'force_password_change' => true, // deve trocar na primeira entrada
+                'force_password_change' => true,
             ]
         );
 
-        // Cadastra como profissional fonoaudióloga
         Profissional::firstOrCreate(
-            ['user_id' => $user->id],
+            ['user_id' => $lucylady->id],
             [
                 'especialidade'         => Especialidade::Fonoaudiologia,
                 'registro_profissional' => '',

@@ -46,7 +46,12 @@ class User extends Authenticatable
 
     public function isAdmin(): bool
     {
-        return $this->perfil === PerfilUsuario::Admin;
+        return $this->perfil->temAcessoAdmin();
+    }
+
+    public function isProprietario(): bool
+    {
+        return $this->perfil === PerfilUsuario::Proprietario;
     }
 
     public function isProfissional(): bool
