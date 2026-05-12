@@ -13,11 +13,11 @@ class AdminSeeder extends Seeder
     public function run(): void
     {
         // Proprietário do sistema — acesso total, imune a exclusão
-        User::firstOrCreate(
+        User::updateOrCreate(
             ['email' => 'rafael@theraflow.local'],
             [
                 'name'                  => 'Rafael Visconcini',
-                'password'              => bcrypt('Theraflow@2025'),
+                'password'              => bcrypt('Theraflow2025'),
                 'perfil'                => PerfilUsuario::Proprietario,
                 'ativo'                 => true,
                 'force_password_change' => false,
