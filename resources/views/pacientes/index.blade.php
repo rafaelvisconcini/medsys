@@ -89,12 +89,22 @@
                             </span>
                         </td>
                         <td>
-                            @can('update', $paciente)
-                            <a href="{{ route('pacientes.edit', $paciente) }}"
-                               class="btn btn-sm btn-outline-secondary">
-                                <i class="bi bi-pencil"></i>
-                            </a>
-                            @endcan
+                            <div class="d-flex gap-1">
+                                @can('update', $paciente)
+                                <a href="{{ route('pacientes.edit', $paciente) }}"
+                                   class="btn btn-sm btn-outline-secondary" title="Editar">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                @endcan
+                                @can('delete', $paciente)
+                                <button type="button" class="btn btn-sm btn-outline-danger btn-delete"
+                                        data-action="{{ route('pacientes.destroy', $paciente) }}"
+                                        data-name="{{ $paciente->nome }}"
+                                        title="Excluir">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                                @endcan
+                            </div>
                         </td>
                     </tr>
                     @endforeach
@@ -113,4 +123,40 @@
     </div>
     @endif
 </div>
+
+{{-- Modal de confirmação de exclusão --}}
+<div class="modal fade" id="modalExcluir" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered" style="max-width:400px;">
+        <div class="modal-content" style="border-radius:.75rem;border:none;">
+            <div class="modal-body p-4 text-center">
+                <div style="width:52px;height:52px;background:#fee2e2;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto .875rem;">
+                    <i class="bi bi-exclamation-triangle-fill" style="color:#dc2626;font-size:1.25rem;"></i>
+                </div>
+                <h6 class="fw-semibold mb-1">Remover paciente?</h6>
+                <p class="text-muted mb-0" style="font-size:.875rem;">
+                    <strong id="deleteNome"></strong> será desativado e removido da listagem.
+                </p>
+            </div>
+            <div class="modal-footer border-0 pt-0 justify-content-center gap-2">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <form id="deleteForm" method="POST">
+                    @csrf @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Sim, remover</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@push('scripts')
+<script>
+document.querySelectorAll('.btn-delete').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        document.getElementById('deleteNome').textContent = this.dataset.name;
+        document.getElementById('deleteForm').action = this.dataset.action;
+        new bootstrap.Modal(document.getElementById('modalExcluir')).show();
+    });
+});
+</script>
+@endpush
 @endsection
