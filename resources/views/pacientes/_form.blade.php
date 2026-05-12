@@ -125,14 +125,18 @@
 
             <div class="col-md-4">
                 <label class="form-label">Telefone fixo</label>
-                <input type="text" name="responsavel_telefone" class="form-control"
+                <input type="text" name="responsavel_telefone"
+                       class="form-control @error('responsavel_telefone') is-invalid @enderror"
                        value="{{ old('responsavel_telefone', $paciente->responsavel_telefone ?? '') }}">
+                @error('responsavel_telefone') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
 
             <div class="col-md-4">
                 <label class="form-label">E-mail</label>
-                <input type="email" name="responsavel_email" class="form-control"
+                <input type="email" name="responsavel_email"
+                       class="form-control @error('responsavel_email') is-invalid @enderror"
                        value="{{ old('responsavel_email', $paciente->responsavel_email ?? '') }}">
+                @error('responsavel_email') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
         </div>
     </div>
@@ -145,18 +149,24 @@
         <div class="row g-3">
             <div class="col-md-5">
                 <label class="form-label">Nome</label>
-                <input type="text" name="contato2_nome" class="form-control"
+                <input type="text" name="contato2_nome"
+                       class="form-control @error('contato2_nome') is-invalid @enderror"
                        value="{{ old('contato2_nome', $paciente->contato2_nome ?? '') }}">
+                @error('contato2_nome') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
             <div class="col-md-4">
                 <label class="form-label">Telefone</label>
-                <input type="text" name="contato2_telefone" class="form-control"
+                <input type="text" name="contato2_telefone"
+                       class="form-control @error('contato2_telefone') is-invalid @enderror"
                        value="{{ old('contato2_telefone', $paciente->contato2_telefone ?? '') }}">
+                @error('contato2_telefone') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
             <div class="col-md-3">
                 <label class="form-label">Parentesco</label>
-                <input type="text" name="contato2_parentesco" class="form-control"
+                <input type="text" name="contato2_parentesco"
+                       class="form-control @error('contato2_parentesco') is-invalid @enderror"
                        value="{{ old('contato2_parentesco', $paciente->contato2_parentesco ?? '') }}">
+                @error('contato2_parentesco') <div class="invalid-feedback">{{ $message }}</div> @enderror
             </div>
         </div>
     </div>
